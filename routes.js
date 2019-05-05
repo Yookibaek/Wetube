@@ -15,8 +15,9 @@ const CHANGE_PASSWORD = "/change-password";
 const VIDEOS = "/videos";
 const UPLOAD = "/upload";
 const VIDEO_DETAIL = "/:id";
-const EDIT_VIDEO = "/:id/edit";// :id부분은 변하는부분이라고 알고있음
+const EDIT_VIDEO = "/:id/edit";
 const DELETE_VIDEO = "/:id/delete";
+
 
 const routes = {
     home: HOME,
@@ -26,10 +27,10 @@ const routes = {
     search: SEARCH,
 
     users: USERS,
-    userDetail: (id)=>{
-        if(id){
-            return `/users/${id}`
-        }else{
+    userDetail: (id) => {
+        if (id) {
+            return `${USERS}/${id}`
+        } else {
             return USER_DETAIL;
         }
     },
@@ -37,15 +38,25 @@ const routes = {
     changePassword: CHANGE_PASSWORD,
     videos: VIDEOS,
     upload: UPLOAD,
-    videoDetail: (id)=>{
-        if(id){
-            return `/videos/${id}`
-        }else{
+    videoDetail: (id) => {
+        if (id) {
+            return `${VIDEOS}/${id}`
+        } else {
             return VIDEO_DETAIL;
         }
     },
-    editVideo: EDIT_VIDEO,
-    deleteVideo: DELETE_VIDEO
+    editVideo: (id) => {
+        if (id) {
+            return `${VIDEOS}/${id}/edit`;
+        } else {
+            return EDIT_VIDEO;
+        }
+    },
+    deleteVideo: (id) => {
+        if (id){
+            return `/videos/${id}/delete`;
+        } 
+        return DELETE_VIDEO;
+    }
 }
-
 export default routes;

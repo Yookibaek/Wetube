@@ -1,16 +1,13 @@
 import mongoose from "mongoose";
+require("dotenv").config();
 
-
-mongoose.connect("mongodb://localhost:27017/we-tube",
-{
-  useNewUrlParser:true,
-  useFindAndModify: false
-});
+mongoose.connect(
+  process.env.MONGO_URL,
+  {
+    useNewUrlParser: true,
+    useFindAndModify: false
+  });
 
 const db = mongoose.connection;
-
-const handleOpen = ()=>console.log("Connected to DB")
-const handleError = ()=>console.log(`X error on db connection:${error}`)
-
-db.once("open",handleOpen )
-db.on("error",handleError)
+db.once("open", () => console.log("DB Connection Success!"));
+db.on("error", () => console.log(`DB Connection Fail: error on db connection:${error}`));
