@@ -1,9 +1,10 @@
-import routes from "../routes";     
+import routes from "../routes";
 import Video from "../models/Video";
 
 export const home = async (req, res) => {
   try {
     const videos = await Video.find({});
+    videos.sort((video1, video2) => video1.createdAt < video2.createdAt);
     res.render("home", { pageTitle: "Home", videos });
   }
   catch (error) {
@@ -12,10 +13,18 @@ export const home = async (req, res) => {
   }
 };
 
-export const search = (req, res) => {
+export const search = async (req, res) => {
   const {
     query: { term: searchingBy }
   } = req;
+  let videos = [];
+  try{
+    videos = await Video.find({
+      title: {$regex: searchingBy, $options: "i"}
+    });
+  } catch(error){
+      console.log(error);
+  }
   res.render("search", { pageTitle: "Search", searchingBy, videos });
 };
 
@@ -28,7 +37,7 @@ export const postUpload = async (req, res) => {
     body: { title, description },
     file: { path }
   } = req;
-  
+
   // save
   const newVideo = await Video.create({
     fileUrl: path,
@@ -66,7 +75,7 @@ export const getEditVideo = async (req, res) => {
 
   try {
     const video = await Video.findById(id);
-    res.render("editVideo", { pageTitle: `Edit ${video.title}` , video})
+    res.render("editVideo", { pageTitle: `Edit ${video.title}`, video })
   }
   catch (error) {
     console.log(error);
@@ -75,27 +84,27 @@ export const getEditVideo = async (req, res) => {
 }
 export const postEditVideo = async (req, res) => {
   const {
-    params:{id},
-    body: {title, description}
+    params: { id },
+    body: { title, description }
   } = req;
-  try{
-    await Video.findOneAndUpdate({_id:id},{title, description});
+  try {
+    await Video.findOneAndUpdate({ _id: id }, { title, description });
     res.redirect(routes.videoDetail(id));
-  } catch (error){
+  } catch (error) {
     res.redirect(routes.home);
   }
 }
 export const deleteVideo = async (req, res) => {
-  const{
-    params:{id}
+  const {
+    params: { id }
   } = req;
 
-  try{
-    await Video.findOneAndRemove({_id:id});
+  try {
+    await Video.findOneAndRemove({ _id: id });
     console.log("delete 성공!");
-  } catch(error){
+  } catch (error) {
     console.log(error);
   }
   res.redirect(routes.home);
-  
+
 }

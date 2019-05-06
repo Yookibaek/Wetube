@@ -16,7 +16,8 @@ const app = express();
 // Middlewares
 app.use(helmet());      // 보안
 app.set("view engine", "pug");  // 뷰 템플릿으로 pug 사용
-app.use("/uploads", express.static("uploads")); 
+app.use("/uploads", express.static("uploads"));
+app.use("/static",express.static("static"));
 app.use(cookieparser()); // 서버가 유저로부터 받은 쿠키 이해하는 방법
 app.use(bodyparser.urlencoded({ extended: true }));   // 서버가 유저로부터 받은 바디 이해하는 방법
 app.use(bodyparser.json());   // 서버가 유저로부터 받은 바디 이해하는 방법

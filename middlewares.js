@@ -3,7 +3,7 @@ import routes from "./routes";
 
 // 1. multer 객체의 파일 저장경로 설정
 // 2. multer 객체의 form 추적속성 설정
-export const uploadVideo = multer({ dest: `${routes.upload}${routes.videos}/` })
+export const uploadVideo = multer({ dest: "uploads/videos/" })
     .single("videoFile"); 
 
 export const localMiddleware = (req, res, next) => {

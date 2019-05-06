@@ -6,8 +6,10 @@ html
             integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr", 
             crossorigin="anonymous")
         title #{pageTitle}  #{siteName}
+        link(rel="stylesheet",href="/static/styles.css")
     body
         include ../partials/header
         main
             block content
         include ../partials/footer
+        script(src="/static/main.js")
